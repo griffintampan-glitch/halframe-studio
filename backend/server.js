@@ -667,5 +667,3 @@ app.delete('/api/users/:id', authenticateToken, async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server Halframe berjalan di http://localhost:${PORT}`);
 });
-
-module.exports = app;
