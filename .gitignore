@@ -1,0 +1,10 @@
+# Mengabaikan modul node.js yang ukurannya sangat besar
+node_modules/
+
+# Mengabaikan file konfigurasi rahasia dan environment
+.env
+
+# Mengabaikan folder hasil build atau log system (opsional tapi disarankan)
+uploads/
+.DS_Store
+*.log

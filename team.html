@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team | Halframe Studio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Memanggil CSS Modular -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+    <!-- NAVIGASI -->
+    <!-- Cukup letakkan ini di bawah <body> -->
+    <div id="public-nav-placeholder"></div> 
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <h1>THE CREW</h1>
+        <p class="description">Orang-orang yang membingkai realitas dari sudut pandang yang berbeda.</p>
+    </header>
+
+    <!-- KOTAK PENCARIAN (Tetap di tengah mengikuti batas konten) -->
+    <div style="width: 100%; max-width: 1720px; margin: 80px auto 30px auto; padding: 0 40px; display: flex; justify-content: flex-end;">
+        <input type="text" id="publicSearchInput" placeholder="Cari Nama..." style="padding: 10px 18px; width: 260px; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none;">
+    </div>
+
+    <!-- TEAM SECTION (Dibuat Full-Width menyamai halaman Works) -->
+    <section class="team-section" style="padding: 0 5% 80px 5%; margin-top: 0;">
+        <!-- Tambahan style="max-width: 100%;" untuk menjebol batas 1200px dari CSS bawaan -->
+        <div class="team-grid" id="public-team-grid" style="max-width: 100%;">
+            <!-- Data kru dari database Supabase akan otomatis dimuat di sini -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <!-- PENAMPUNG FOOTER OTOMATIS -->
+    <div id="public-footer-placeholder"></div>
+
+    <!-- Memanggil Javascript Modular -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

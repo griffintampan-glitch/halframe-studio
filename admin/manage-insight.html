@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Insight | Admin Halframe</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css"> 
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+    <!-- GANTI DENGAN INI SAJA -->
+        <div id="admin-sidebar-placeholder"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content"style="margin-left: 260px; padding: 40px 5%; width: calc(100% - 260px); box-sizing: border-box;">
+        
+        <header class="admin-header">
+            <div>
+                <h1>Manage Insight</h1>
+                <p class="stat-desc">Tulis, edit, dan kelola artikel jurnal Halframe.</p>
+            </div>
+            <!-- Tambahkan ID openAddInsightBtn -->
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <input type="text" id="adminSearchInput" placeholder="Cari artikel jurnal..." style="padding: 9px 15px; background: var(--bg-dark); color: white; border: 1px solid var(--border-color); border-radius: 4px; width: 220px; font-size: 13px;">
+                <button class="btn-primary" id="openAddInsightBtn" style="padding: 10px 20px;">+ Write New Article</button>
+            </div>
+        </header>
+
+        <!-- INSIGHT TABLE -->
+        <section class="admin-section">
+            <div class="table-container">
+                <!-- Tambahkan ID insightTable agar tidak bentrok dengan tabel booking -->
+                <table class="admin-table" id="insightTable">
+                    <thead>
+                        <tr>
+                            <th>Publish Date</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Oct 12, 2026</td>
+                            <td><strong>Membangun Realitas dalam Keheningan</strong></td>
+                            <td>Behind The Scenes</td>
+                            <td><span class="badge approved">Published</span></td>
+                            <td class="table-actions">
+                                <button class="btn-icon edit-insight" title="Edit Article">✏️</button>
+                                <button class="btn-icon delete-insight" title="Delete">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sep 28, 2026</td>
+                            <td><strong>Pentingnya Negative Space dalam Fashion</strong></td>
+                            <td>Creative Process</td>
+                            <td><span class="badge approved">Published</span></td>
+                            <td class="table-actions">
+                                <button class="btn-icon edit-insight" title="Edit Article">✏️️</button>
+                                <button class="btn-icon delete-insight" title="Delete">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>-</td>
+                            <td><strong>Draft: Eksplorasi Lensa Analog di 2027</strong></td>
+                            <td>Opinion</td>
+                            <td><span class="badge pending">Draft</span></td>
+                            <td class="table-actions">
+                                <button class="btn-icon edit-insight" title="Continue Editing">✏️️</button>
+                                <button class="btn-icon publish-insight" title="Publish Now">🚀</button>
+                                <button class="btn-icon delete-insight" title="Delete">🗑️</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MODAL MANAGE INSIGHT -->
+        <div id="insightModal" class="admin-modal">
+            <div class="modal-content" style="max-width: 700px;"> <!-- Agak dilebarkan karena untuk nulis artikel -->
+                <span class="close-modal insight-close">&times;</span>
+                <h2 id="insightModalTitle">Write New Article</h2>
+                <form id="insightForm">
+                    <div class="modal-body" style="text-align: left;">
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Article Title</label>
+                            <input type="text" id="insightTitle" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                        </div>
+                        
+                        <div style="display:flex; gap:15px; margin-bottom:15px;">
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Category</label>
+                                <select id="insightCategory" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                                    <option value="Behind The Scenes">Behind The Scenes</option>
+                                    <option value="Creative Process">Creative Process</option>
+                                    <option value="Opinion">Opinion</option>
+                                    <option value="Tutorial">Tutorial</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Status</label>
+                                <select id="insightStatus" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                                    <option value="Published">Published</option>
+                                    <option value="Draft">Save as Draft</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:15px; margin-bottom:15px;">
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Publish Date</label>
+                                <input type="date" id="insightDate" style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Cover Image</label>
+                                <input type="file" id="insightImage" accept="image/*" style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Article Content</label>
+                            <!-- Textarea lebih besar untuk nulis -->
+                            <textarea id="insightContent" rows="8" placeholder="Tulis isi artikel di sini..." required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-outline-small insight-close-btn">Cancel</button>
+                        <button type="submit" class="btn-primary" style="padding: 8px 16px;">Save Article</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Panggil file JS -->
+    <script src="../js/admin.js"></script>
+    <script src="../js/admin-loader.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Beranda | Halframe Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        .sidebar-link {
+            display: block; padding: 15px 30px; color: var(--text-muted); text-decoration: none; font-size: 14px; transition: all 0.3s ease;
+        }
+        .sidebar-link:hover { color: var(--text-light); background: rgba(255,255,255,0.02); }
+        .sidebar-link.active { color: var(--text-light); background: rgba(255,255,255,0.05); border-left: 3px solid var(--accent); }
+
+        /* Gaya untuk Efek Drag and Drop */
+        .slide-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            cursor: grab; /* Kursor berubah jadi tangan genggam tanda bisa digeser */
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .slide-item:active {
+            cursor: grabbing;
+        }
+        /* Efek saat elemen sedang ditarik (di-drag) */
+        .slide-item.dragging {
+            opacity: 0.4;
+            border: 1px dashed var(--accent);
+        }
+        /* Indikator visual saat elemen melayang di atas item lain */
+        .slide-item.over {
+            border-top: 2px solid var(--accent);
+        }
+    </style>
+</head>
+<body style="background-color: var(--bg-dark); margin: 0;">
+
+    <div style="display: flex; min-height: 100vh;">
+        
+        <!-- GANTI DENGAN INI SAJA -->
+        <div id="admin-sidebar-placeholder"></div>
+
+        <!-- KONTEN UTAMA -->
+        <main style="flex: 1; margin-left: 260px; padding: 60px 5%; width: calc(100% - 260px); box-sizing: border-box;">
+            
+            <div style="max-width: 1000px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 40px;">
+                    <div>
+                        <h2 style="font-size: 2rem; margin-bottom: 5px; text-transform: uppercase;">PENGATURAN BERANDA</h2>
+                        <p style="color: var(--text-muted);">Atur tampilan slideshow dan karya unggulan di halaman utama.</p>
+                    </div>
+                    <button class="btn-primary" onclick="saveAllSettings()">Simpan Pengaturan</button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                    
+                    <!-- BAGIAN 1: SLIDESHOW HERO -->
+                    <div style="background: var(--bg-card); padding: 30px; border: 1px solid var(--border-color); border-radius: 8px;">
+                        <h3 style="margin-bottom: 10px; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Gambar Slideshow (Hero)</h3>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px;">💡 Seret (drag) kartu ke atas atau bawah untuk mengatur urutan tayang.</p>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 10px; font-size: 0.85rem; color: var(--text-muted);">Tambah Gambar Baru</label>
+                            
+                            <div style="display:flex; gap:20px; margin-bottom:10px;">
+                                <label style="font-size: 13px; cursor: pointer; color: white;">
+                                    <input type="radio" name="slideImageMethod" value="link" checked style="margin-right: 5px;" onchange="toggleSlideInput('link')"> Gunakan Link URL
+                                </label>
+                                <label style="font-size: 13px; cursor: pointer; color: white;">
+                                    <input type="radio" name="slideImageMethod" value="upload" style="margin-right: 5px;" onchange="toggleSlideInput('upload')"> Upload File
+                                </label>
+                            </div>
+
+                            <div id="slideLinkGroup" style="display: flex; gap: 10px;">
+                                <input type="text" id="newSlideUrl" placeholder="https://..." style="flex: 1; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; outline: none; box-sizing: border-box;">
+                                <button type="button" style="padding: 10px 15px; background: transparent; color: white; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; font-family: 'Inter', sans-serif;" onclick="addSlide('link')">Tambah</button>
+                            </div>
+
+                            <div id="slideUploadGroup" style="display: none; gap: 10px;">
+                                <input type="file" id="newSlideFile" accept="image/*" style="flex: 1; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; box-sizing: border-box;">
+                                <button type="button" style="padding: 10px 15px; background: transparent; color: white; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; font-family: 'Inter', sans-serif;" onclick="addSlide('upload')">Tambah</button>
+                            </div>
+                        </div>
+
+                        <!-- Daftar Gambar dengan Fitur Drag and Drop -->
+                        <div id="slides-list" style="display: flex; flex-direction: column; gap: 15px;">
+                            <div class="slide-item" draggable="true" data-url="https://images.unsplash.com/photo-1604242692760-2f7b0c26856d?q=80&w=1200">
+                                <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
+                                    <span style="color: var(--text-muted); font-size: 14px;">☰</span>
+                                    <img src="https://images.unsplash.com/photo-1604242692760-2f7b0c26856d?q=80&w=100" style="width: 60px; height: 40px; object-fit: cover; border-radius: 2px;">
+                                    <span style="font-size: 0.8rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px;">Slide_1.jpg</span>
+                                </div>
+                                <button style="background: none; border: none; color: #e50914; cursor: pointer; font-size: 1.2rem;" onclick="this.closest('.slide-item').remove()">&times;</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BAGIAN 2: KARYA UNGGULAN (PINNED WORKS) -->
+                    <div style="background: var(--bg-card); padding: 30px; border: 1px solid var(--border-color); border-radius: 8px;">
+                        <h3 style="margin-bottom: 20px; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Portofolio Unggulan (Pinned)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Pilih 3 karya untuk ditampilkan di Grid "Latest Works" pada halaman awal.</p>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-light);">Slot Karya 1</label>
+                            <select id="pinnedWork1" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; outline: none; cursor: pointer; box-sizing: border-box;">
+                                <option value="" style="color: black;">-- Pilih Karya --</option>
+                                <option value="1" style="color: black;" selected>Prabowo Anjai (Graduation)</option>
+                                <option value="2" style="color: black;">Company Profile 2025</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-light);">Slot Karya 2</label>
+                            <select id="pinnedWork2" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; outline: none; cursor: pointer; box-sizing: border-box;">
+                                <option value="" style="color: black;">-- Pilih Karya --</option>
+                                <option value="2" style="color: black;" selected>Company Profile 2025</option>
+                                <option value="3" style="color: black;">Wedding Cinematic</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-light);">Slot Karya 3</label>
+                            <select id="pinnedWork3" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; outline: none; cursor: pointer; box-sizing: border-box;">
+                                <option value="" style="color: black;" selected>-- Pilih Karya --</option>
+                                <option value="4" style="color: black;">Product Shoot XYZ</option>
+                                <option value="5" style="color: black;">Music Video - The Band</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        let slideFilesToUpload = [];
+
+        function toggleSlideInput(method) {
+            const linkGroup = document.getElementById('slideLinkGroup');
+            const uploadGroup = document.getElementById('slideUploadGroup');
+
+            if (!linkGroup || !uploadGroup) return;
+
+            if (method === 'link') {
+                linkGroup.style.display = 'flex';
+                uploadGroup.style.display = 'none';
+            } else {
+                linkGroup.style.display = 'none';
+                uploadGroup.style.display = 'flex';
+            }
+        }
+
+        function attachDragAndDropEvents(item) {
+            item.addEventListener('dragstart', () => {
+                item.classList.add('dragging');
+            });
+
+            item.addEventListener('dragend', () => {
+                item.classList.remove('dragging');
+                document.querySelectorAll('.slide-item').forEach(el => el.classList.remove('over'));
+            });
+
+            item.addEventListener('dragover', e => {
+                e.preventDefault();
+                const draggingItem = document.querySelector('.dragging');
+                const listContainer = document.getElementById('slides-list');
+
+                if (!draggingItem || !listContainer) return;
+
+                const afterElement = getDragAfterElement(listContainer, e.clientY);
+                if (afterElement == null) {
+                    listContainer.appendChild(draggingItem);
+                } else {
+                    listContainer.insertBefore(draggingItem, afterElement);
+                }
+            });
+
+            item.addEventListener('dragenter', () => {
+                item.classList.add('over');
+            });
+
+            item.addEventListener('dragleave', () => {
+                item.classList.remove('over');
+            });
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.slide-item:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset, element: child };
+                }
+
+                return closest;
+            }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+        }
+
+        // 2. Perbarui fungsi addSlide
+        function addSlide(method) {
+            let imageUrl = '';
+            let imageName = '';
+
+            if (method === 'link') {
+                const input = document.getElementById('newSlideUrl');
+                if(input.value.trim() === '') return;
+                imageUrl = input.value;
+                imageName = "Link_Image";
+                input.value = '';
+            } else if (method === 'upload') {
+                const fileInput = document.getElementById('newSlideFile');
+                if(fileInput.files.length === 0) return;
+                
+                const file = fileInput.files[0];
+                imageUrl = URL.createObjectURL(file);
+                imageName = file.name;
+                
+                // SIMPAN FILE ASLI KE MEMORI AGAR TIDAK HILANG
+                slideFilesToUpload.push({ url: imageUrl, file: file });
+                
+                // Input visual boleh dikosongkan karena file sudah aman di memori
+                fileInput.value = ''; 
+            }
+            
+            const list = document.getElementById('slides-list');
+            const newItem = document.createElement('div');
+            newItem.className = 'slide-item';
+            newItem.setAttribute('draggable', 'true');
+            newItem.setAttribute('data-url', imageUrl);
+            
+            newItem.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
+                    <span style="color: var(--text-muted); font-size: 14px;">☰</span>
+                    <img src="${imageUrl}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 2px;">
+                    <span style="font-size: 0.8rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px;">${imageName}</span>
+                </div>
+                <button type="button" style="background: none; border: none; color: #e50914; cursor: pointer; font-size: 1.2rem;" onclick="this.closest('.slide-item').remove()">&times;</button>
+            `;
+
+            attachDragAndDropEvents(newItem);
+            list.appendChild(newItem);
+        }
+
+        // 3. Perbarui fungsi saveAllSettings
+        async function saveAllSettings() {
+            const w1 = document.getElementById('pinnedWork1').value;
+            const w2 = document.getElementById('pinnedWork2').value;
+            const w3 = document.getElementById('pinnedWork3').value;
+            const pinned_works = [w1, w2, w3].filter(id => id !== "");
+
+            const formData = new FormData();
+            formData.append('pinned_works', JSON.stringify(pinned_works));
+
+            const slideItems = document.querySelectorAll('.slide-item');
+            const slideshow_images = [];
+
+            slideItems.forEach(item => {
+                const url = item.getAttribute('data-url');
+                
+                if (url && url.startsWith('blob:')) {
+                    // AMBIL FILE ASLI DARI MEMORI BERDASARKAN URL PREVIEW
+                    const matchedFile = slideFilesToUpload.find(f => f.url === url);
+                    if (matchedFile) {
+                        formData.append('slide_files', matchedFile.file);
+                    }
+                } else if (url) {
+                    // Jika URL adalah link biasa (bukan file upload baru)
+                    slideshow_images.push(url);
+                }
+            });
+
+            formData.append('slideshow_images', JSON.stringify(slideshow_images));
+
+            try {
+                const response = await fetch('http://localhost:5000/api/settings/home', {
+                    method: 'POST',
+                    body: formData 
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Berhasil! Pengaturan beranda telah tersimpan permanen ke database.");
+                    location.reload(); 
+                } else {
+                    alert("Gagal menyimpan: " + (result.message || "Terjadi kesalahan"));
+                }
+            } catch (err) {
+                console.error("Error:", err);
+                alert("Gagal terhubung ke server backend.");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            toggleSlideInput('link');
+
+            document.querySelectorAll('.slide-item').forEach(item => {
+                attachDragAndDropEvents(item);
+            });
+
+            try {
+                const response = await fetch('http://localhost:5000/api/settings/home');
+                const data = await response.json();
+
+                if (data && data.slideshow_images && data.slideshow_images.length > 0) {
+                    const list = document.getElementById('slides-list');
+                    list.innerHTML = '';
+
+                    data.slideshow_images.forEach((url, index) => {
+                        const newItem = document.createElement('div');
+                        newItem.className = 'slide-item';
+                        newItem.setAttribute('draggable', 'true');
+                        newItem.setAttribute('data-url', url);
+
+                        newItem.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
+                                <span style="color: var(--text-muted); font-size: 14px;">☰</span>
+                                <img src="${url}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 2px;">
+                                <span style="font-size: 0.8rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 120px;">Slide_${index + 1}</span>
+                            </div>
+                            <button type="button" style="background: none; border: none; color: #e50914; cursor: pointer; font-size: 1.2rem;" onclick="this.closest('.slide-item').remove()">&times;</button>
+                        `;
+
+                        attachDragAndDropEvents(newItem);
+                        list.appendChild(newItem);
+                    });
+                }
+            } catch (err) {
+                console.error('Gagal memuat pengaturan awal:', err);
+            }
+        });
+    </script>
+    <script src="../js/admin-loader.js"></script>
+</body>
+</html>

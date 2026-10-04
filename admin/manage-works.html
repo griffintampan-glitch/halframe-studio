@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Works | Admin Halframe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css"> 
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+    <!-- GANTI DENGAN INI SAJA -->
+        <div id="admin-sidebar-placeholder"></div>
+
+    <main class="main-content"style="margin-left: 260px; padding: 40px 5%; width: calc(100% - 260px); box-sizing: border-box;">
+        <header class="admin-header">
+            <div>
+                <h1>Manage Works</h1>
+                <p class="stat-desc">Kelola portofolio yang tampil di website publik.</p>
+            </div>
+             <div style="display: flex; gap: 15px; align-items: center;">
+                <input type="text" id="adminSearchInput" placeholder="Cari proyek portofolio..." style="padding: 9px 15px; background: var(--bg-dark); color: white; border: 1px solid var(--border-color); border-radius: 4px; width: 220px; font-size: 13px;">
+            <button class="btn-primary" id="openAddWorkBtn" style="padding: 10px 20px;">+ Add New Project</button>
+            </div>
+        </header>
+
+        <section class="admin-works-section">
+            <div class="admin-works-grid">
+                <!-- Konten dimuat dari DB -->
+            </div>
+        </section>
+    
+        <div id="workModal" class="admin-modal">
+            <div class="modal-content">
+                <span class="close-modal work-close">&times;</span>
+                <h2 id="workModalTitle">Add New Project</h2>
+                <form id="workForm">
+                    <div class="modal-body" style="text-align: left;">
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Project Title</label>
+                            <input type="text" id="workTitle" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Category / Tag</label>
+                            <select id="workCategory" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                                <optgroup label="Events">
+                                    <option value="Graduation Photo & Video">Graduation Photo & Video</option>
+                                    <option value="Wedding Photo & Video">Wedding Photo & Video</option>
+                                    <option value="Event Photo & Video">Event Photo & Video</option>
+                                </optgroup>
+                                <optgroup label="Commercial & Brand">
+                                    <option value="Product Photography">Product Photography</option>
+                                    <option value="Commercial Video">Commercial Video</option>
+                                    <option value="Branding">Branding</option>
+                                    <option value="Company Profile">Company Profile</option>
+                                    <option value="Brand Film">Brand Film</option>
+                                </optgroup>
+                                <optgroup label="Creative & Social">
+                                    <option value="Social Media Video">Social Media Video</option>
+                                    <option value="Short Film">Short Film</option>
+                                    <option value="Music Video">Music Video</option>
+                                    <option value="Documentary">Documentary</option>
+                                </optgroup>
+                                <optgroup label="Other Services">
+                                    <option value="Video Editing">Video Editing</option>
+                                    <option value="Live Streaming">Live Streaming</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div style="display:flex; gap:15px; margin-bottom:15px;">
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Date</label>
+                                <input type="date" id="workDate" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Location</label>
+                                <input type="text" id="workLocation" placeholder="e.g. Malang, East Java" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Description</label>
+                            <textarea id="workDescription" rows="3" placeholder="Brief project description..." required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);"></textarea>
+                        </div>
+
+                        <!-- INPUT DUA OPSI (URL & UPLOAD) -->
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:10px;">Thumbnail Gambar</label>
+                            
+                            <!-- Toggle Pilihan -->
+                            <div style="display:flex; gap:20px; margin-bottom:10px;">
+                                <label style="font-size: 13px; cursor: pointer; color: white;">
+                                    <input type="radio" name="imageMethod" id="useLink" value="link" checked style="margin-right: 5px;"> Gunakan Link URL
+                                </label>
+                                <label style="font-size: 13px; cursor: pointer; color: white;">
+                                    <input type="radio" name="imageMethod" id="useUpload" value="upload" style="margin-right: 5px;"> Upload File
+                                </label>
+                            </div>
+
+                            <!-- Opsi 1: URL -->
+                            <div id="linkInputGroup">
+                                <!-- Hapus type="url" dan required di sini -->
+                                <input type="text" id="workImageUrl" placeholder="https://..." style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+
+                            <!-- Opsi 2: Upload File (Disembunyikan default) -->
+                            <div id="uploadInputGroup" style="display: none;">
+                                <!-- Hapus required di sini juga -->
+                                <input type="file" id="workImageFile" accept="image/*" style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                                <small style="color:var(--text-muted); font-size:11px;">Maksimal ukuran file: 2MB.</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-outline-small work-close-btn">Cancel</button>
+                        <button type="submit" class="btn-primary" style="padding: 8px 16px;">Save Project</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <script src="../js/admin.js"></script>
+    <script src="../js/admin-loader.js"></script>
+
+</body>
+</html>

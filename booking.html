@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Us | Halframe Studio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/forms.css"> 
+    <link rel="stylesheet" href="css/animations.css">
+
+    <!-- CSS KHUSUS UNTUK POPUP SUCCESS -->
+    <style>
+        .success-modal {
+            display: none; position: fixed; z-index: 9999; left: 0; top: 0; 
+            width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(10px); align-items: center; justify-content: center;
+        }
+        .success-modal.show { display: flex; animation: fadeIn 0.4s ease; }
+        .success-content {
+            background-color: var(--bg-card); border: 1px solid var(--border-color); 
+            border-radius: 12px; width: 90%; max-width: 450px; padding: 40px 30px; 
+            text-align: center; box-shadow: 0 15px 50px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGASI -->
+    <!-- Cukup letakkan ini di bawah <body> -->
+    <div id="public-nav-placeholder"></div> 
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+        <h1>START A PROJECT</h1>
+        <p class="description">Ceritakan visi Anda, dan mari wujudkan realitas tersebut bersama.</p>
+    </header>
+
+    
+
+    <!-- BOOKING FORM SECTION -->
+    <section class="booking-section" style="margin-top: 80px; margin-bottom: 80px;">
+        <div class="form-container reveal">
+
+            <!-- Letakkan TOMBOL KEMBALI di sini (Di dalam form-container, di atas form) -->
+            <div style="text-align: left; margin-bottom: 30px;">
+                <a href="javascript:history.back()" style="color: var(--text-muted); text-decoration: none; font-size: 1rem; font-family: 'Inter', sans-serif; transition: color 0.3s ease; display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--text-muted)'">
+                    &larr; Kembali
+                </a>
+            </div>
+
+            <form action="#" method="POST" id="bookingForm">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap / Perusahaan</label>
+                        <input type="text" id="name" name="name" required placeholder="John Doe or Brand Inc.">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="hello@example.com">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Nomor WhatsApp / HP</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="081234567890">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Estimasi Tanggal Produksi</label>
+                        <!-- Menggunakan color-scheme dark dan fungsi showPicker agar kalender langsung muncul -->
+                        <input type="date" id="date" name="date" required style="color-scheme: dark; cursor: pointer;" onclick="this.showPicker()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="service-select">Layanan yang Dibutuhkan</label>
+                    <select id="service-select" name="service" required>
+                        <option value="" disabled selected>Pilih Layanan...</option>
+                        
+                        <optgroup label="Events">
+                            <option value="Graduation Photo & Video">Graduation Photo & Video</option>
+                            <option value="Wedding Photo & Video">Wedding Photo & Video</option>
+                            <option value="Event Photo & Video">Event Photo & Video</option>
+                        </optgroup>
+                        
+                        <optgroup label="Commercial & Brand">
+                            <option value="Product Photography">Product Photography</option>
+                            <option value="Commercial Video">Commercial Video</option>
+                            <option value="Branding">Branding</option>
+                            <option value="Company Profile">Company Profile</option>
+                            <option value="Brand Film">Brand Film</option>
+                        </optgroup>
+                        
+                        <optgroup label="Creative & Social">
+                            <option value="Social Media Video">Social Media Video</option>
+                            <option value="Short Film">Short Film</option>
+                            <option value="Music Video">Music Video</option>
+                            <option value="Documentary">Documentary</option>
+                        </optgroup>
+                        
+                        <optgroup label="Other Services">
+                            <option value="Video Editing">Video Editing</option>
+                            <option value="Live Streaming">Live Streaming</option>
+                            <option value="Lainnya (Custom Project)">Lainnya (Custom Project)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="details">Detail Proyek</label>
+                    <textarea id="details" name="details" rows="5" required placeholder="Ceritakan brief singkat mengenai proyek Anda, referensi visual, dan ekspektasi output..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary submit-btn">Submit Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- SUCCESS POPUP MODAL -->
+    <div id="successModal" class="success-modal">
+        <div class="success-content">
+            <div style="font-size: 60px; margin-bottom: 20px;">🎬</div>
+            <h2 style="margin-bottom: 15px; font-size: 1.8rem;">Terima Kasih!</h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px;">
+                Booking request Anda telah kami terima. Tim Halframe Studio akan segera meninjau detail proyek ini dan menghubungi Anda melalui WhatsApp atau Email.
+            </p>
+            <button id="closeSuccessBtn" class="btn-primary" style="width: 100%; padding: 12px;">Kembali ke Beranda</button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

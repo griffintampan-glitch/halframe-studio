@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Team | Admin Halframe</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css"> 
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+
+    <!-- GANTI DENGAN INI SAJA -->
+        <div id="admin-sidebar-placeholder"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content"style="margin-left: 260px; padding: 40px 5%; width: calc(100% - 260px); box-sizing: border-box;">
+        
+        <header class="admin-header">
+            <div>
+                <h1>Manage Team</h1>
+                <p class="stat-desc">Kelola data internal kru dan profil yang tampil di halaman publik.</p>
+            </div>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <input type="text" id="adminSearchInput" placeholder="Cari nama kru..." style="padding: 9px 15px; background: var(--bg-dark); color: white; border: 1px solid var(--border-color); border-radius: 4px; width: 220px; font-size: 13px;">
+                <button class="btn-primary" id="openAddTeamBtn" style="padding: 10px 20px;">+ Add New Member</button>
+            </div>
+        </header>
+
+        <!-- TEAM GRID -->
+        <section class="admin-team-section">
+            <div class="admin-team-grid">
+                
+                <div class="admin-team-card">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop" alt="Griffin">
+                    <div class="admin-team-info">
+                        <h4>Griffin</h4>
+                        <span class="work-category">Creative Director</span>
+                        <div class="admin-work-actions">
+                            <button class="btn-edit">Edit</button>
+                            <button class="btn-delete">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-team-card">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" alt="Rania">
+                    <div class="admin-team-info">
+                        <h4>Rania</h4>
+                        <span class="work-category">Lead Cinematographer</span>
+                        <div class="admin-work-actions">
+                            <button class="btn-edit">Edit</button>
+                            <button class="btn-delete">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MODAL MANAGE TEAM -->
+        <div id="teamModal" class="admin-modal">
+            <div class="modal-content" style="max-width: 650px;">
+                <span class="close-modal team-close">&times;</span>
+                <h2 id="teamModalTitle">Add New Member</h2>
+                
+                <form id="teamForm">
+                    <div class="modal-body" style="text-align: left; max-height: 60vh; overflow-y: auto; padding-right: 10px;">
+                        
+                        <div style="display:flex; gap:15px; margin-bottom:15px;">
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Nama Lengkap</label>
+                                <input type="text" id="teamFullName" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Nama Panggilan (Tampil di Web)</label>
+                                <input type="text" id="teamNickname" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:15px; margin-bottom:15px;">
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Tempat Lahir</label>
+                                <input type="text" id="teamPOB" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Tanggal Lahir</label>
+                                <input type="date" id="teamDOB" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:15px; margin-bottom:15px;">
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Role / Posisi</label>
+                                <input type="text" id="teamRole" placeholder="e.g. Colorist & Editor" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Pendidikan Terakhir</label>
+                                <input type="text" id="teamEducation" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Link Portofolio (Behance / Vimeo / GDrive)</label>
+                            <input type="url" id="teamPortfolio" placeholder="https://" style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Profil Singkat / Bio</label>
+                            <textarea id="teamProfile" rows="3" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);"></textarea>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Foto Profil (Upload)</label>
+                            <input type="file" id="teamPhoto" accept="image/*" style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-outline-small team-close-btn">Cancel</button>
+                        <button type="submit" class="btn-primary" style="padding: 8px 16px;">Save Member</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="../js/admin.js"></script>
+    <script src="../js/admin-loader.js"></script>
+    
+</body>
+</html>

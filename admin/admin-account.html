@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Akun | Halframe Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <style>
+        .sidebar-link {
+            display: block; padding: 15px 30px; color: var(--text-muted); text-decoration: none; font-size: 14px; transition: all 0.3s ease;
+        }
+        .sidebar-link:hover { color: var(--text-light); background: rgba(255,255,255,0.02); }
+        .sidebar-link.active { color: var(--text-light); background: rgba(255,255,255,0.05); border-left: 3px solid var(--accent); }
+    </style>
+</head>
+<body style="background-color: var(--bg-dark); margin: 0;">
+
+    <div style="display: flex; min-height: 100vh;">
+        
+        <!-- SIDEBAR KIRI -->
+        <div id="admin-sidebar-placeholder"></div>
+
+        <!-- KONTEN UTAMA -->
+        <main style="flex: 1; margin-left: 260px; padding: 60px 5%; width: calc(100% - 260px); box-sizing: border-box;">
+            
+            <div style="max-width: 600px;">
+                <h2 style="margin-bottom: 10px; font-size: 2rem;">PENGATURAN AKUN</h2>
+                <p style="color: var(--text-muted); margin-bottom: 40px;">Perbarui informasi profil dan keamanan akun admin Anda.</p>
+
+                <form id="adminAccountForm" style="background: var(--bg-card); padding: 40px; border: 1px solid var(--border-color); border-radius: 8px;">
+                    
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">Nama Lengkap / Perusahaan</label>
+                        <input type="text" id="adminName" required style="width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; font-size: 1rem; outline: none; box-sizing: border-box;">
+                    </div>
+
+                    <div style="margin-bottom: 25px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">Email (Terkunci)</label>
+                        <input type="email" id="adminEmail" disabled style="width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 4px; font-size: 1rem; opacity: 0.6; cursor: not-allowed; box-sizing: border-box;">
+                    </div>
+
+                    <hr style="border: none; border-top: 1px solid var(--border-color); margin: 30px 0;">
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">Password Lama</label>
+                        <input type="password" id="oldPassword" placeholder="Wajib diisi jika ingin mengubah password" style="width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; font-size: 1rem; outline: none; box-sizing: border-box;">
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px;">Password Baru</label>
+                        <input type="password" id="newPassword" placeholder="Minimal 8 karakter" style="width: 100%; padding: 12px 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: white; border-radius: 4px; font-size: 1rem; outline: none; box-sizing: border-box;">
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 15px; font-size: 1rem;">Simpan Perubahan</button>
+                </form>
+            </div>
+            
+        </main>
+    </div>
+
+    <script src="../js/admin-loader.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = '../login.html';
+                return;
+            }
+
+            const adminNameInput = document.getElementById('adminName');
+            const adminEmailInput = document.getElementById('adminEmail');
+
+            // 1. Tarik Data Profil Admin dari Backend secara Real-Time
+            try {
+                const response = await fetch('http://localhost:5000/api/profile', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const userData = await response.json();
+                    adminNameInput.value = userData.nama_lengkap;
+                    adminEmailInput.value = userData.email;
+                    localStorage.setItem('adminName', userData.nama_lengkap);
+                } else {
+                    adminNameInput.value = "Gagal memuat";
+                    adminEmailInput.value = "Gagal memuat";
+                }
+            } catch (err) {
+                console.error("Gagal terhubung ke server:", err);
+            }
+
+            // 2. Kirim Perubahan Profil & Password ke Backend
+            const form = document.getElementById('adminAccountForm');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const nama_lengkap = adminNameInput.value;
+                const old_password = document.getElementById('oldPassword').value;
+                const new_password = document.getElementById('newPassword').value;
+
+                try {
+                    const res = await fetch('http://localhost:5000/api/profile', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ nama_lengkap, old_password, new_password })
+                    });
+
+                    const result = await res.json();
+
+                    if (res.ok) {
+                        alert("Pengaturan akun berhasil disimpan!");
+                        localStorage.setItem('adminName', result.user.nama_lengkap);
+                        document.getElementById('oldPassword').value = '';
+                        document.getElementById('newPassword').value = '';
+                    } else {
+                        alert("Gagal: " + (result.message || "Terjadi kesalahan"));
+                    }
+                } catch (err) {
+                    console.error("Error updating profile:", err);
+                    alert("Gagal terhubung ke server backend.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

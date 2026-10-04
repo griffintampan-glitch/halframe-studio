@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bookings | Admin Halframe</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/components.css"> 
+    <link rel="stylesheet" href="../css/admin.css">
+
+    <!-- Library untuk Export Excel dan PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    
+</head>
+
+<!-- Panggil script admin -->
+    <script src="../js/admin.js"></script>
+</body>
+</html>
+
+<body class="admin-body">
+
+    <!-- GANTI DENGAN INI SAJA -->
+        <div id="admin-sidebar-placeholder"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content"style="margin-left: 260px; padding: 40px 5%; width: calc(100% - 260px); box-sizing: border-box;">
+        
+        <header class="admin-header">
+            <div>
+                <h1>Manage Bookings</h1>
+                <p class="stat-desc">Tinjau, setujui, tolak, dan kelola laporan proyek dari klien.</p>
+            </div>
+            <!-- Tambahan Tombol Laporan -->
+            <!-- Tombol Laporan dengan gaya teks putih dan border konsisten -->
+            <div style="display: flex; gap: 15px; align-items: center;">
+              <input type="text" id="adminSearchInput" placeholder="Cari booking..." style="padding: 9px 15px; background: var(--bg-dark); color: white; border: 1px solid var(--border-color); border-radius: 4px; width: 220px; font-size: 13px;">
+              <button id="downloadReportBtn" style="padding: 10px 20px; background: transparent; color: white; border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 500;">⬇️ Export Report</button>
+              <button class="btn-primary" id="openAddBookingBtn" style="padding: 10px 20px;">+ Add Manual</button>
+            </div>
+        </header>
+
+        <!-- FILTER TABS -->
+        <div class="admin-filters">
+            <button class="admin-filter-btn active" data-filter="all">All Requests</button>
+            <button class="admin-filter-btn" data-filter="pending">Pending</button>
+            <button class="admin-filter-btn" data-filter="approved">Approved</button>
+            <button class="admin-filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <!-- BOOKINGS TABLE -->
+        <section class="admin-section">
+            <div class="table-container">
+                <table class="admin-table" id="bookingsTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Client Info</th>
+                            <th>Service Requested</th>
+                            <th>Target Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Perhatikan tambahan data-status="..." di setiap tr -->
+                        <tr data-status="pending">
+                            <td>#B-0042</td>
+                            <td>
+                                <strong>Urban Outfitters</strong><br>
+                                <span style="font-size: 0.8rem; color: #888;">hello@urban.com</span>
+                            </td>
+                            <td>Fashion Photography</td>
+                            <td>Nov 15, 2026</td>
+                            <td><span class="badge pending">Pending</span></td>
+                            <td class="table-actions">
+                                <button class="btn-icon view" title="View Details">👁️</button>
+                                <button class="btn-icon approve" title="Approve">✔️</button>
+                                <button class="btn-icon reject" title="Reject">❌</button>
+                                <button class="btn-icon delete" title="Delete">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr data-status="approved">
+                            <td>#B-0041</td>
+                            <td>
+                                <strong>TechFlow Inc.</strong><br>
+                                <span style="font-size: 0.8rem; color: #888;">contact@techflow.io</span>
+                            </td>
+                            <td>Commercial Video</td>
+                            <td>Oct 20, 2026</td>
+                            <td><span class="badge approved">Approved</span></td>
+                            <td class="table-actions">
+                                <button class="btn-icon view" title="View Details">👁️</button>
+                                <button class="btn-icon complete" title="Mark as Completed">🏁</button>
+                                <button class="btn-icon delete" title="Delete">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr data-status="completed">
+                            <td>#B-0040</td>
+                            <td>
+                                <strong>Local Artisan Cafe</strong><br>
+                                <span style="font-size: 0.8rem; color: #888;">hi@artisan.id</span>
+                            </td>
+                            <td>Documentary</td>
+                            <td>Sep 10, 2026</td>
+                            <td><span class="badge completed">Completed</span></td>
+                            <td class="table-actions">
+                                <button class="btn-icon review" data-link="https://docs.google.com/document/d/contoh-link-gdocs/edit" title="Review Project" style="font-size:12px; padding:5px 10px; border-radius:4px; background:transparent; color:var(--text-light); border:1px solid var(--border-color);">📝 Review</button>
+                                <button class="btn-icon delete" title="Delete">🗑️</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MODAL DETAIL BOOKING (Yang sudah ada) -->
+        <div id="bookingModal" class="admin-modal">
+            <div class="modal-content">
+                <span class="close-modal detail-close">&times;</span>
+                <h2>Booking Details</h2>
+                <div class="modal-body">
+                    <div class="detail-group"><label>Client / Company</label><p id="detail-client">Urban Outfitters (hello@urban.com)</p></div>
+                    <div class="detail-group"><label>Service Requested</label><p id="detail-service">Fashion Photography</p></div>
+                    <div class="detail-group"><label>Target Date</label><p id="detail-date">Nov 15, 2026</p></div>
+                    <div class="detail-group"><label>Project Brief</label><p id="detail-brief">Membutuhkan foto editorial untuk koleksi Fall/Winter.</p></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-outline-small detail-close-btn">Close</button>
+                    <button class="btn-primary" style="padding: 8px 16px;">Chat via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL TAMBAH BOOKING MANUAL -->
+        <div id="addBookingModal" class="admin-modal">
+            <div class="modal-content">
+                <span class="close-modal add-close">&times;</span>
+                <h2>Add Manual Booking</h2>
+                <form id="addBookingForm">
+                    <div class="modal-body" style="text-align: left;">
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Client Name</label>
+                            <input type="text" id="addName" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Client Email</label>
+                            <input type="email" id="addEmail" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Service</label>
+                            <select id="addService" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                                <option value="Commercial Video">Commercial Video</option>
+                                <option value="Fashion Photography">Fashion Photography</option>
+                                <option value="Documentary">Documentary</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:5px;">Target Date</label>
+                            <input type="date" id="addDate" required style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color);">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-outline-small add-close-btn">Cancel</button>
+                        <button type="submit" class="btn-primary" style="padding: 8px 16px;">Save Booking</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL EXPORT REPORT -->
+        <div id="exportModal" class="admin-modal">
+            <div class="modal-content" style="max-width: 450px;">
+                <span class="close-modal export-close">&times;</span>
+                <h2>Export Project Report</h2>
+                <div class="modal-body" style="text-align: left;">
+                    
+                    <!-- Pilihan Rentang Tanggal -->
+                    <div style="margin-bottom: 20px;">
+                        <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:8px;">Rentang Tanggal (Opsional)</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="date" id="exportStartDate" style="width:100%; padding:8px; background:var(--bg-dark); color:white; border:1px solid var(--border-color); border-radius:4px;">
+                            <span style="color: var(--text-muted);">s/d</span>
+                            <input type="date" id="exportEndDate" style="width:100%; padding:8px; background:var(--bg-dark); color:white; border:1px solid var(--border-color); border-radius:4px;">
+                        </div>
+                        <small style="color: var(--text-muted); font-size: 11px; margin-top: 5px; display: block;">Kosongkan jika ingin mendownload seluruh data tanpa batasan waktu.</small>
+                    </div>
+
+                    <!-- Pilihan Format File -->
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label style="display:block; color:var(--text-muted); font-size:12px; margin-bottom:8px;">Format File</label>
+                        <select id="exportFormat" style="width:100%; padding:10px; background:var(--bg-dark); color:white; border:1px solid var(--border-color); border-radius:4px;">
+                            <option value="csv">CSV (Comma Separated Values)</option>
+                            <option value="excel">Excel (.xlsx)</option>
+                            <option value="pdf">PDF (.pdf)</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-small export-close-btn">Cancel</button>
+                    <button type="button" class="btn-primary" id="confirmExportBtn" style="padding: 8px 20px;">Download Report</button>
+                </div>
+            </div>
+        </div>
+
+    <script src="../js/admin-loader.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Halframe Studio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Memanggil CSS Modular -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/forms.css"> <!-- Tambahan khusus form -->
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="auth-page">
+
+
+
+
+<!-- NAVIGASI MINIMALIS -->
+<div id="public-nav-placeholder"></div>
+
+    <section class="auth-section reveal">
+        <div class="auth-card" style="margin-top: 120px; margin-bottom: 60px;">
+
+
+            <!-- Letakkan TOMBOL KEMBALI di sini (Di dalam form-container, di atas form) -->
+            <div style="text-align: left; margin-bottom: 30px;">
+                <a href="javascript:history.back()" style="color: var(--text-muted); text-decoration: none; font-size: 1rem; font-family: 'Inter', sans-serif; transition: color 0.3s ease; display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--text-muted)'">
+                    &larr; Kembali
+                </a>
+            </div>
+
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Bergabunglah untuk mulai berkolaborasi dengan kami.</p>
+            
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="fullname">Nama Lengkap / Perusahaan</label>
+                    <input type="text" id="fullname" name="fullname" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+                
+                <button type="submit" class="btn-primary auth-submit">Register</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Sudah punya akun? <a href="login.html">Log In di sini</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memanggil Javascript Modular -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/auth.js"></script> <!-- Tambahan khusus logika Auth -->
+</body>
+</html>

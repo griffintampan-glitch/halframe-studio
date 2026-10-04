@@ -1,0 +1,14 @@
+/* css/typography.css */
+
+.page-header h1 { font-size: 3rem; margin-bottom: 10px; }
+.page-header .description { margin: 0 auto; max-width: 600px; color: var(--text-muted); }
+
+/* About Page Text */
+.about-headline { font-size: 2.5rem; margin-bottom: 50px; line-height: 1.3; }
+.about-headline span { color: var(--text-muted); }
+.about-text { text-align: left; font-size: 1.1rem; line-height: 1.8; color: var(--text-light); margin-bottom: 60px; column-count: 1; column-gap: 40px; }
+@media (min-width: 768px) { .about-text { column-count: 2; } }
+
+/* Insight/Journal Text */
+.featured-content h2 { font-size: 2rem; margin-bottom: 20px; line-height: 1.3; }
+.excerpt { color: var(--text-muted); margin-bottom: 30px; font-size: 1rem; }

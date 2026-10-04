@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In | Halframe Studio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Memanggil CSS Modular -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/forms.css"> <!-- Tambahan khusus form -->
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body class="auth-page">
+
+<!-- NAVIGASI MINIMALIS -->
+<!-- NAVIGASI -->
+    <!-- Cukup letakkan ini di bawah <body> -->
+    <div id="public-nav-placeholder"></div> 
+        
+        <!-- Menambahkan Flexbox agar sejajar & memberi kotak putih pada tombol Log In -->
+    
+        </div>
+    </nav>
+
+    <!-- AUTH SECTION -->
+    <section class="auth-section reveal">
+
+        
+        <div class="auth-card">
+
+            <!-- Letakkan TOMBOL KEMBALI di sini (Di dalam form-container, di atas form) -->
+            <div style="text-align: left; margin-bottom: 30px;">
+                <a href="javascript:history.back()" style="color: var(--text-muted); text-decoration: none; font-size: 1rem; font-family: 'Inter', sans-serif; transition: color 0.3s ease; display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--text-muted)'">
+                    &larr; Kembali
+                </a>
+            </div>
+
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Masuk untuk melanjutkan proses *booking* atau melihat status proyek Anda.</p>
+            
+            <form id="loginForm">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="name@example.com">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="••••••••">
+    </div>
+    
+    <div class="auth-actions">
+        <a href="#" class="forgot-pass">Lupa password?</a>
+    </div>
+    
+    <button type="submit" class="btn-primary auth-submit">Log In</button>
+</form>
+            
+            <div class="auth-footer">
+                <p>Belum punya akun? <a href="register.html">Daftar sekarang</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Memanggil Javascript Modular -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/auth.js"></script> <!-- Tambahan khusus logika Auth -->
+</body>
+</html>

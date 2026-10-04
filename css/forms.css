@@ -1,0 +1,34 @@
+/* css/forms.css */
+
+/* Booking Form */
+.booking-section { padding: 0 5% 100px; display: flex; justify-content: center; }
+.form-container { width: 100%; max-width: 800px; background-color: var(--bg-card); padding: 50px; border: 1px solid var(--border-color); border-radius: 8px; }
+.form-row { display: flex; flex-wrap: wrap; gap: 20px; }
+.form-row .form-group { flex: 1; min-width: 250px; }
+.form-group { margin-bottom: 25px; }
+.form-group label { display: block; margin-bottom: 10px; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+.form-group input, 
+.form-group select, 
+.form-group textarea { 
+    width: 100%; padding: 15px; background-color: var(--bg-dark); border: 1px solid var(--border-color); color: var(--text-light); font-family: var(--font-body); border-radius: 4px; font-size: 1rem; transition: all 0.3s ease; 
+}
+.form-group select { appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>'); background-repeat: no-repeat; background-position: right 15px center; background-size: 15px; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); }
+.submit-btn { width: 100%; padding: 18px; font-size: 1rem; margin-top: 10px; }
+
+/* Auth Form (Login/Register) */
+body.auth-page { background: radial-gradient(circle at center, #111 0%, var(--bg-dark) 100%); height: 100vh; display: flex; flex-direction: column; }
+.minimal-nav { justify-content: center; }
+.minimal-nav .nav-links, .minimal-nav .nav-actions { display: none; }
+.auth-section { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 5%; }
+.auth-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 50px 40px; width: 100%; max-width: 450px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); text-align: center; }
+.auth-card h2 { font-size: 2rem; margin-bottom: 10px; }
+.auth-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 30px; }
+.auth-card .form-group { text-align: left; }
+.auth-actions { display: flex; justify-content: flex-end; margin-bottom: 20px; }
+.forgot-pass { font-size: 0.8rem; color: var(--text-muted); transition: color 0.3s; }
+.forgot-pass:hover { color: var(--accent); }
+.auth-submit { width: 100%; padding: 15px; font-size: 1rem; margin-bottom: 20px; }
+.auth-footer { border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 0.9rem; color: var(--text-muted); }
+.auth-footer a { color: var(--text-light); font-weight: 600; text-decoration: underline; }

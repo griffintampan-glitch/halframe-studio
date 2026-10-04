@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halframe Studio | The Other Half of Reality</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Memanggil CSS Modular -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+    <!-- NAVIGASI -->
+    <!-- Cukup letakkan ini di bawah <body> -->
+    <div id="public-nav-placeholder"></div> 
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <!-- Tambahkan kontainer slideshow ini -->
+        <div class="hero-slideshow">
+            <!-- Gambar 1 (Aktif pertama kali) -->
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1604242692760-2f7b0c26856d?q=80&w=1920&auto=format&fit=crop');"></div>
+            <!-- Gambar 2 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1920&auto=format&fit=crop');"></div>
+            <!-- Gambar 3 -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1920&auto=format&fit=crop');"></div>
+        </div>
+
+        <div class="hero-content">
+            <p class="subtitle">WE ARE HALFRAME STUDIO</p>
+            <h1>THE OTHER HALF<br>OF REALITY.</h1>
+            <p class="description">Menjelajahi sisi cerita yang tidak selalu ditampilkan di depan kamera. Kami merangkai realitas menjadi karya visual sinematik.</p>
+            <div class="hero-buttons">
+                <a href="works.html" class="btn-primary">Explore Collection</a>
+                <a href="about.html" class="btn-outline">Our Mission</a>
+            </div>
+        </div>
+        <div class="hero-fade"></div>
+    </header>
+
+    <!-- KARYA TERBARU (CARDS GRID) -->
+    <section class="latest-works">
+        <div class="section-header">
+            <h2>LATEST DROPS</h2>
+            <a href="works.html" class="view-all">View All Works &rarr;</a>
+        </div>
+        
+        <!-- Tambahkan ID latest-works-grid dan kosongkan isinya -->
+        <div class="works-grid" id="latest-works-grid">
+            <!-- Data 3 proyek terbaru dari Supabase akan dimuat di sini -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <!-- PENAMPUNG FOOTER OTOMATIS -->
+    <div id="public-footer-placeholder"></div>
+
+    <!-- Memanggil Javascript Modular -->
+    <script src="js/main.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>

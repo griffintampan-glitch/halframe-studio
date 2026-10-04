@@ -1,0 +1,30 @@
+<aside style="width: 260px; background-color: #050505; border-right: 1px solid var(--border-color); position: fixed; top: 0; left: 0; height: 100vh; display: flex; flex-direction: column; padding: 40px 0; z-index: 1000;">
+    <div style="padding: 0 30px; margin-bottom: 50px;">
+        <img src="../assets/images/Logo Halframe.png" alt="Logo Halframe" style="height: 100px; margin-bottom: 30px; display: block;">
+        <div style="font-family: var(--font-head); font-size: 11px; letter-spacing: 2px; color: var(--text-light); font-weight: 700;">ADMIN PANEL</div>
+    </div>
+    
+    <nav style="display: flex; flex-direction: column; flex: 1;">
+        <a href="dashboard.html" class="sidebar-link">Dashboard</a>
+        <a href="manage-bookings.html" class="sidebar-link">Manage Bookings</a>
+        <a href="manage-works.html" class="sidebar-link">Manage Works</a>
+        <a href="manage-insight.html" class="sidebar-link">Manage Insight</a>
+        <a href="manage-team.html" class="sidebar-link">Manage Team</a>
+        <a href="admin-home.html" class="sidebar-link">Home Setup</a>
+        <a href="manage-users.html" class="sidebar-link">Manage Users</a>
+        <a href="admin-account.html" class="sidebar-link">Account Settings</a>
+    </nav>
+
+    <div style="padding: 0 30px; margin-top: auto; border-top: 1px solid var(--border-color); padding-top: 20px;">
+        <a href="../index.html" style="font-size: 11px; letter-spacing: 1px; color: var(--text-muted); text-decoration: none; display: block; margin-bottom: 20px; transition: color 0.3s;" onmouseover="this.style.color='var(--text-light)'" onmouseout="this.style.color='var(--text-muted)'">VIEW LIVE SITE &rarr;</a>
+        <a href="#" id="logoutBtn" style="font-size: 12px; letter-spacing: 1px; color: #e50914; text-decoration: none; font-weight: 700; display: block; cursor: pointer;">LOG OUT</a>
+    </div>
+</aside>
+
+<style>
+    .sidebar-link {
+        display: block; padding: 15px 30px; color: var(--text-muted); text-decoration: none; font-size: 14px; transition: all 0.3s ease;
+    }
+    .sidebar-link:hover { color: var(--text-light); background: rgba(255,255,255,0.02); }
+    .sidebar-link.active { color: var(--text-light); background: rgba(255,255,255,0.05); border-left: 3px solid var(--accent); }
+</style>
