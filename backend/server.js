@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -660,6 +661,58 @@ app.delete('/api/users/:id', authenticateToken, async (req, res) => {
     } catch (err) {
         console.error("Delete User Error:", err.message);
         res.status(500).json({ message: "Gagal menghapus akun. Pastikan tidak ada data booking yang terikat." });
+    }
+});
+
+/* =========================================
+   API ENDPOINTS: CHATBOT (UTS)
+========================================= */
+app.post('/api/chat', async (req, res) => {
+    const userMessage = req.body.message;
+
+    // 1. Ambil waktu dan tanggal saat ini dari laptop
+    const waktuSekarang = new Date().toLocaleString('id-ID', { 
+        timeZone: 'Asia/Jakarta', dateStyle: 'full', timeStyle: 'short' 
+    });
+
+    // 2. Baca data lengkap Halframe dari file .txt
+    let dataHalframe = "";
+    try {
+        dataHalframe = fs.readFileSync(path.join(__dirname, 'halframe-data.txt'), 'utf8');
+    } catch (err) {
+        console.error("Gagal membaca file data:", err);
+    }
+
+    // 3. Susun System Prompt yang asik tapi profesional
+    const systemPrompt = `Kamu adalah asisten AI Halframe Studio. Panggil pengunjung dengan sapaan akrab seperti "Kak" atau "Halo". Gaya bahasamu asik, kekinian, ramah, tapi tetap profesional dan sopan. Jawab maksimal 2-3 kalimat saja.
+
+DATA PENGETAHUAN KHUSUS HALFRAME:
+${dataHalframe}
+
+ATURAN MENJAWAB:
+0. Perkenalan diri kamu sebagai asisten virtual Halframe Studio dengan ama Halfie. Kamu bukan manusia, tapi AI yang cerdas dan ramah.
+1. TENTANG HALFRAME: Jika ditanya seputar Halframe (layanan, tim, dll), gunakan Data Pengetahuan Khusus di atas.
+2. PEMANDU WEBSITE: Jika pengunjung ingin memesan, melihat karya, atau cek harga, arahkan ke halaman yang tepat berdasarkan PETA WEBSITE.
+3. WAKTU: Jika ditanya waktu/tanggal, beritahu bahwa sekarang adalah: ${waktuSekarang} WIB.
+4. PENGETAHUAN UMUM: Jika pengunjung bertanya hal umum (sains, sejarah, geografi, teknologi, dll), gunakan wawasan cerdas bawaanmu untuk menjawabnya secara akurat, singkat, dan asik. Jika memungkinkan dan nyambung, selipkan analogi tentang fotografi atau videografi, tapi jangan dipaksakan.
+5. BATASAN: Kamu tidak bisa melakukan aksi fisik. Jika tidak tahu jawabannya, jawablah dengan jujur dan sopan.
+6. ARAHAN HALAMAN: Jika memberikan jawaban arahan halaman kaih tau di halaman mana jangan memberi halaman dengan .html nya cukup tulis nama halamannya saja.`;
+
+    try {
+        const response = await axios.post('http://localhost:11434/api/chat', {
+            model: "qwen2.5:3b",
+            messages: [
+                { role: "system", content: systemPrompt },
+                { role: "user", content: userMessage }
+            ],
+            stream: false
+        });
+
+        res.json({ reply: response.data.message.content });
+
+    } catch (error) {
+        console.error("Gagal menghubungi Ollama:", error.message);
+        res.status(500).json({ reply: "Maaf Kak, AI Halframe lagi ngopi bentar. Coba lagi ya!" });
     }
 });
 

@@ -1,0 +1,17 @@
+INFORMASI HALFRAME STUDIO:
+- Founder & Tim Inti: Muhammad Griffin Satria Aristama dan Cahya Mujahidah.
+- Tagline: "The Other Half of Reality".
+- Layanan Fotografi: Pre-wedding, Wedding, Event & Konser, Foto Produk, Wisuda/Graduation, dan Personal Portrait.
+- Layanan Videografi: Company Profile, Short Movie, Dokumentasi Cinematic, Music Video, dan Video Konten Sosial Media (Reels/TikTok).
+- Visi: Merangkai realitas menjadi karya visual sinematik.
+- Jam Operasional: Senin - Sabtu (09.00 - 20.00 WIB).
+- Lokasi: Kota Malang, Jawa Timur.
+
+PETA WEBSITE (ARAHKAN PENGUNJUNG KE SINI):
+- Beranda utama / Info Umum -> Arahkan ke "halaman utama (Home)"
+- Lihat hasil karya / Portofolio -> Arahkan ke menu "Works" atau halaman "works.html"
+- Info detail tim / Sejarah agensi -> Arahkan ke menu "About" atau halaman "about.html"
+- Alur Pemesanan & Harga: Arahkan pengunjung untuk mengisi form di halaman "Booking". Jelaskan bahwa setelah form dikirim, tim Halframe akan segera menghubungi mereka lewat chat pribadi (WhatsApp) atau bertemu langsung untuk konsultasi detail harga dan jadwal. Jangan sebutkan ada konsultasi harga di halaman form.
+- Pesan jasa / Isi data awal -> Arahkan ke menu "Booking".
+- Baca artikel / Cerita di balik layar -> Arahkan ke menu "Insights"
+- Login Admin -> Arahkan ke halaman "Login" di pojok kanan atas.
